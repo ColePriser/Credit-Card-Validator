@@ -5,13 +5,14 @@
 #include <malloc.h>
 #include <stdlib.h>
 
+//6011111111111117 valid example (13 1's)
+
 int getDigitByIndex(int num, int index) {
     int digit = num / pow(10, index);
     return digit % 10;
 }
 
-void validate(int credCardNum) {
-    printf("%i\n", credCardNum);
+void validate(long long int credCardNum) {
     int checkSum = 0;
 
     //Find length of credit card number
@@ -49,28 +50,23 @@ void validate(int credCardNum) {
 int main() {   
     bool goAgain = false;
     do {
-        int credNum;
+        long long int credNum;
     
         //Initial credit card input request
         printf("Input your credit card number below (NO SPACES):\n");
-        scanf("%i\n", &credNum);
-        printf("you put %i\n", credNum);
+        scanf("%lli", &credNum);
+        printf("you put %lli\n", credNum);
+
         //Call validate function to see if number is valid
         validate(credNum);
-        printf("validated...\n");
-        bool correctInput = false;
-        do {
-            printf("Do you want to input a new credit card number?\n");
-            printf("Type YES or NO:\n");
-            char *again = malloc(4);
-            scanf("%s\n", again);
-            if (strcmp(again, "YES") == 0) {
-                goAgain = true;
-                correctInput = true;
-            } else if (strcmp(again, "NO") == 0) {
-                correctInput = true;
-            }
-        } while (correctInput);
+        printf("Type YES if you want to input a new credit card number:\n");
+        char *again = malloc(4);
+        scanf("%s", again);
+        if (strcmp(again, "YES") == 0) {
+            goAgain = true;
+        } else {
+            goAgain = false;
+        }
     } while (goAgain);
     return 0;
 }
