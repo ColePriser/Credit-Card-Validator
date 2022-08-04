@@ -37,8 +37,35 @@ void validate(long long cred_num, int length) {
     //If the check sum divided by 10 has a remainder of 0, then this credit card number is valid
     if (check_sum % 10 == 0) {
         printf("Valid Number!\n", check_sum);
-    } else {
+    } 
+    else {
         printf("Invalid Number!\n", check_sum);
+    }
+}
+
+void company(long long cred_num, int length) {
+    //Find first digit of inputted credit card number
+    int first_dig = cred_num;
+    while (first_dig > 10LL) {
+        first_dig /= 10LL;
+    }
+
+    //Using the first_dig to see company
+    //American Express numbers start with 3
+    //Visa numbers start with 4
+    //MasterCard numbers start with 5
+    //Discover numbers start with 6
+    //Everything else is unknown to this program
+    if (first_dig == 3) {
+        printf("Company: American Express\n");
+    } else if (first_dig == 4) {
+        printf("Company: Visa\n");
+    } else if (first_dig == 5) {
+        printf("Company: MasterCard\n");
+    } else if (first_dig == 6) {
+        printf("Company: Discover\n");
+    } else {
+        printf("Company: UNKNOWN\n");
     }
 }
 
@@ -66,11 +93,13 @@ int main() {
         //Only checking certain companies with the given credit card number lengths
         if (length != 13 && length != 15 && length != 16 && length != 19) {
             printf("Invalid number of digits.\n");
-            return 0;
-        }
+        } else {
+            //Call company function to check where credit card belongs
+            company(cred_num, length);
 
-        //Call validate function to see if number is valid
-        validate(cred_num, length);
+            //Call validate function to see if number is valid
+            validate(cred_num, length);
+        }
 
         //Ask user if they want to check another card
         printf("Type YES if you want to input a new credit card number:\n");
