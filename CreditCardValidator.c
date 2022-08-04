@@ -7,66 +7,80 @@
 
 //6011111111111117 valid example (13 1's)
 
-int getDigitByIndex(int num, int index) {
-    int digit = num / pow(10, index);
-    return digit % 10;
-}
+void validate(long long cred_num, int length) {
+    int check_sum = 0;
+    long long manipulate_num = cred_num;
 
-void validate(long long int credCardNum) {
-    int checkSum = 0;
+    //Use Luhn's Alrogithm
+    for (int x = 1; x < length + 1; x++) {
 
-    //Find length of credit card number
-    int length = floor(log10(abs(credCardNum))) + 1;
-    for (int x = length; x >= 0; x--) {
-        //Find check sum of odd indexes
-        if (x % 2 == 1) {
-            //Just add every number at odd index
-            checkSum += getDigitByIndex(credCardNum, x);
-        } 
-        //Find check sum of even indexes
-        else {
-            //Double every number at even index
-            int doubleNum = 2 * getDigitByIndex(credCardNum, x);
+        //Isolates the current digit we are looking at
+        int cur_digit = manipulate_num % 10LL;
 
-            //If doubleNum is double digit, then subtract 9 and add to check sum.
-            if (doubleNum > 9) {
-                doubleNum -= 9;
-                checkSum += doubleNum;
-            } else {
-                //If this double is single digit, then add it to the check sum.
-                checkSum += doubleNum;
+        //Every other digit is multiplied by 2
+        if (x % 2 == 0) {
+            cur_digit *= 2;
+
+            //If digit is double digit after multiplying by 2, then subtract 9 from it
+            if (cur_digit >= 10) {
+                cur_digit -= 9;
             }
         }
+
+        //Add current digit we have been editing to the check sum
+        check_sum += cur_digit;
+
+        //Remove digit we just used from ongoing calculations
+        manipulate_num /= 10LL;
     }
 
     //If the check sum divided by 10 has a remainder of 0, then this credit card number is valid
-    if (checkSum % 10 == 0) {
-        printf("Valid Number!\n");
+    if (check_sum % 10 == 0) {
+        printf("Valid Number!\n", check_sum);
     } else {
-        printf("Invalid Number!\n");
+        printf("Invalid Number!\n", check_sum);
     }
 }
 
 int main() {   
-    bool goAgain = false;
+    bool again = false;
     do {
-        long long int credNum;
-    
+        long long cred_num = 0LL;
+
         //Initial credit card input request
         printf("Input your credit card number below (NO SPACES):\n");
-        scanf("%lli", &credNum);
-        printf("you put %lli\n", credNum);
+        
+        //Ensure number is in given range
+        do {
+            scanf("%lld", &cred_num);
+        } while (cred_num < 1LL || cred_num > 9999999999999999LL);
+
+        //Count the length of inputted number using variable 'length'
+        int length = 0;
+        long long manipulate_num = cred_num;
+        while (manipulate_num > 0LL) {
+            manipulate_num /= 10LL;
+            length++;
+        }
+        
+        //Only checking certain companies with the given credit card number lengths
+        if (length != 13 && length != 15 && length != 16 && length != 19) {
+            printf("Invalid number of digits.\n");
+            return 0;
+        }
 
         //Call validate function to see if number is valid
-        validate(credNum);
+        validate(cred_num, length);
+
+        //Ask user if they want to check another card
         printf("Type YES if you want to input a new credit card number:\n");
-        char *again = malloc(4);
-        scanf("%s", again);
-        if (strcmp(again, "YES") == 0) {
-            goAgain = true;
+        char *input = malloc(4);
+        scanf("%s", input);
+        if (strcmp(input, "YES") == 0) {
+            again = true;
         } else {
-            goAgain = false;
+            again = false;
         }
-    } while (goAgain);
+    } while (again);
     return 0;
 }
