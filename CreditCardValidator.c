@@ -58,12 +58,11 @@ bool validate(long long cred_num, int length) {
 }
 
 /**
- * @brief This function checks what compan
+ * @brief This function checks the card type based off the first digit of the CCN.
  * 
- * @param cred_num 
- * @return int 
+ * @param cred_num The CCN that the user inputs
  */
-int check_card_type(long long cred_num) {
+void check_card_type(long long cred_num) {
     //Find the industry number of credit card, which is the very first number
     int count = log10(cred_num);
     int first_dig = cred_num / pow(10, count);
@@ -110,6 +109,9 @@ int check_card_type(long long cred_num) {
     }
 }
 
+/**
+ * @brief Controls the operation of the program.
+ */
 int main() {   
     bool again = false;
     do {
