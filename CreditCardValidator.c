@@ -1,11 +1,24 @@
-#include <stdio.h>
+/** 
+    Checks whether a credit card number is valid by using Luhn's Alrogithm.
+    Also displays what type of card this is (such as MasterCard). 
+    @file CreditCardValidator.c
+    @author Cole Priser
+    @version 1.1 8/8/2022
+*/
+
 #include <math.h>
 #include <stdbool.h>
-#include <string.h>
-#include <malloc.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-//6011111111111117 valid example (13 1's)
+/**
+ * @brief This function checks if a credit card number (CCN) is valid according to Luhn's Alrogithm.
+ * @param cred_num  The CCN that the user inputs
+ * @param length The number of digits in the CCN
+ * @return true If CCN valid
+ * @return false If card CCN valid
+ */
 
 bool validate(long long cred_num, int length) {
     int check_sum = 0;
@@ -44,7 +57,13 @@ bool validate(long long cred_num, int length) {
     return false;
 }
 
-int company(long long cred_num) {
+/**
+ * @brief This function checks what compan
+ * 
+ * @param cred_num 
+ * @return int 
+ */
+int check_card_type(long long cred_num) {
     //Find the industry number of credit card, which is the very first number
     int count = log10(cred_num);
     int first_dig = cred_num / pow(10, count);
@@ -97,31 +116,27 @@ int main() {
         long long cred_num = 0LL;
 
         //Initial credit card input request
-        printf("Input your credit card number below (NO SPACES):\n");
+        printf("Input your credit card number below (NO SPACES and 13-16 digits long):\n");
+        scanf("%lld", &cred_num);
         
-        //Ensure number is greater than 0 digits and less than 17 digits
-        do {
-            scanf("%lld", &cred_num);
-        } while (cred_num < 1LL || cred_num > 9999999999999999LL);
-
-        //Count the length of inputted number using variable 'length'
-        int length = 0;
-        long long manipulate_num = cred_num;
-        while (manipulate_num > 0LL) {
-            manipulate_num /= 10LL;
-            length++;
-        }
-        
-        //Only checking certain companies with the given credit card number lengths
-        if ((length != 13) && (length != 15) && (length != 16)) {
-            printf("Invalid number of digits (must be 13, 15, or 16 long).\n");
+        //Ensure number is greater than 12 digits and less than 17 digits
+        if (cred_num < 999999999999LL || cred_num > 9999999999999999LL) {
+            printf("Invalid number of digits (must be 13-16 digits long).\n");
         } else {
+            //Count the length of inputted number using variable 'length'
+            int length = 0;
+            long long manipulate_num = cred_num;
+            while (manipulate_num > 0LL) {
+                manipulate_num /= 10LL;
+                length++;
+            }
+
             //Call validate function to see if number is valid
             bool val = validate(cred_num, length);
 
             //If credit card number is valid, then we will check what company it belongs to
             if (val) {
-                company(cred_num);
+                check_card_type(cred_num);
             }
         }
 
