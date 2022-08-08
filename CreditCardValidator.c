@@ -1,6 +1,6 @@
 /** 
     Checks whether a credit card number is valid by using Luhn's Alrogithm.
-    Also displays what type of card this is (such as MasterCard). 
+    Also displays what type of card it is (such as MasterCard). 
     @file CreditCardValidator.c
     @author Cole Priser
     @version 1.1 8/8/2022
@@ -17,7 +17,7 @@
  * @param cred_num  The CCN that the user inputs
  * @param length The number of digits in the CCN
  * @return true If CCN valid
- * @return false If card CCN valid
+ * @return false If CCN invalid
  */
 
 bool validate(long long cred_num, int length) {
@@ -30,11 +30,11 @@ bool validate(long long cred_num, int length) {
         //Isolates the current digit we are looking at
         int cur_digit = manipulate_num % 10LL;
 
-        //Every other digit is multiplied by 2
+        //Starting at the leftmost digit, double the value of every second digit
         if (x % 2 == 0) {
             cur_digit *= 2;
 
-            //If digit is double digit after multiplying by 2, then subtract 9 from it
+            //If doubling a number results in a double digit number, then subtract double digit by 9
             if (cur_digit >= 10) {
                 cur_digit -= 9;
             }
@@ -47,7 +47,7 @@ bool validate(long long cred_num, int length) {
         manipulate_num /= 10LL;
     }
 
-    //If the check sum divided by 10 has a remainder of 0, then this credit card number is valid and we return true
+    //If the check sum is divisible by 10, then this credit card number is valid and we return true
     if (check_sum % 10 == 0) {
         printf("Valid Number!\n", check_sum);
         return true;
