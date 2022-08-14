@@ -2,7 +2,7 @@
 
 This Credit Card Validator uses the Luhn Algorithm to verify a given credit card number (CCN).
 Luhn is used with MasterCard, American Express, Visa, Discover, and more major credit cards.
-This program requires the user to input a CCN with length (13, 16) inclusive.
+This program requires the user to input a CCN that is 13 through 16 digits long.
 
 This program will also display what type of card this is based on the first digit of the CCN:
 
